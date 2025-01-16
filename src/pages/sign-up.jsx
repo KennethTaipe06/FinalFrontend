@@ -4,6 +4,9 @@ import {
   Checkbox,
   Button,
   Typography,
+  Select,
+  Option,
+  Textarea,
 } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -16,7 +19,13 @@ export function SignUp() {
   const [lastName, setLastName] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
+  const [semester, setSemester] = useState('');
+  const [career, setcareer] = useState('');
+  const [parallel, setParallel] = useState('');
+  const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('');
   const [errors, setErrors] = useState({});
@@ -50,6 +59,13 @@ export function SignUp() {
     if (!address) newErrors.address = "Address is required";
     if (!phone) newErrors.phone = "Phone is required";
     else if (!validatePhone(phone)) newErrors.phone = "Phone number must be exactly 10 digits";
+    if (!semester) newErrors.semester = "Semester is required";
+    if (!career) newErrors.career = "career is required";
+    if (!parallel) newErrors.parallel = "Parallel is required";
+    else if (parallel.length > 10) newErrors.parallel = "Parallel must be less than 10 characters";
+    if (!description) newErrors.description = "Description is required";
+    else if (description.length > 250) newErrors.description = "Description must be less than 250 characters";
+    if (!termsAccepted) newErrors.termsAccepted = "You must accept the terms and conditions";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -66,6 +82,10 @@ export function SignUp() {
     formData.append('lastName', lastName);
     formData.append('address', address);
     formData.append('phone', phone);
+    formData.append('semester', semester);
+    formData.append('career', career);
+    formData.append('parallel', parallel);
+    formData.append('description', description);
     if (image) {
       formData.append('image', image);
     }
@@ -110,6 +130,18 @@ export function SignUp() {
         repeatPassword: "Passwords do not match",
       }));
     }
+    if (field === 'parallel' && parallel.length > 10) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        parallel: "Parallel must be less than 10 characters",
+      }));
+    }
+    if (field === 'description' && description.length > 250) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        description: "Description must be less than 250 characters",
+      }));
+    }
   };
 
   const handleChange = (field, value) => {
@@ -150,6 +182,32 @@ export function SignUp() {
         });
       }
     }
+    if (field === 'parallel') {
+      if (value.length <= 10) {
+        setParallel(value);
+        setErrors((prevErrors) => {
+          const { parallel, ...rest } = prevErrors;
+          return rest;
+        });
+      }
+    }
+    if (field === 'description') {
+      if (value.length <= 250) {
+        setDescription(value);
+        setErrors((prevErrors) => {
+          const { description, ...rest } = prevErrors;
+          return rest;
+        });
+      }
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
   const isFormValid = () => {
@@ -165,15 +223,20 @@ export function SignUp() {
       lastName &&
       address &&
       phone &&
-      validatePhone(phone)
+      validatePhone(phone) &&
+      semester &&
+      career &&
+      parallel.length <= 10 &&
+      description.length <= 250 &&
+      termsAccepted
     );
   };
 
   const passwordRequirements = [
-    { label: "Longitud Mínima: Mínimo 8 caracteres.", regex: /.{8,}/ },
-    { label: "Mayúsculas: Al menos una letra mayúscula (A-Z).", regex: /[A-Z]/ },
-    { label: "Minúsculas: Al menos una letra minúscula (a-z).", regex: /[a-z]/ },
-    { label: "Números: Al menos un número (0-9).", regex: /\d/ },
+    { label: "Minimum Length: At least 8 characters.", regex: /.{8,}/ },
+    { label: "Uppercase: At least one uppercase letter (A-Z).", regex: /[A-Z]/ },
+    { label: "Lowercase: At least one lowercase letter (a-z).", regex: /[a-z]/ },
+    { label: "Numbers: At least one number (0-9).", regex: /\d/ },
     { label: "Símbolos: Al menos un carácter especial o símbolo.", regex: /[!@#$%^&*()_+=\-`~[\]{}|;':",./<>?]/ },
   ];
 
@@ -332,17 +395,92 @@ export function SignUp() {
             />
             {errors.phone && <Typography variant="small" color="red">{errors.phone}</Typography>}
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Profile Image
+              Semester
+            </Typography>
+            <Select
+              size="lg"
+              label="Semester"
+              value={semester}
+              onChange={(value) => setSemester(value)}
+              error={!!errors.semester}
+            >
+              {[...Array(11).keys()].map((num) => (
+                <Option key={num} value={num.toString()}>
+                  {num}
+                </Option>
+              ))}
+            </Select>
+            {errors.semester && <Typography variant="small" color="red">{errors.semester}</Typography>}
+            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+              career
+            </Typography>
+            <Select
+              size="lg"
+              label="career"
+              value={career}
+              onChange={(value) => setcareer(value)}
+              error={!!errors.career}
+            >
+              <Option value="Ingeniería de Sistemas">Ingeniería de Sistemas</Option>
+              <Option value="Ingeniería Civil">Ingeniería Civil</Option>
+              <Option value="Medicina">Medicina</Option>
+              <Option value="Derecho">Derecho</Option>
+              <Option value="Arquitectura">Arquitectura</Option>
+            </Select>
+            {errors.career && <Typography variant="small" color="red">{errors.career}</Typography>}
+            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+              Parallel
             </Typography>
             <Input
-              type="file"
               size="lg"
+              placeholder="Parallel"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
-              onChange={(e) => setImage(e.target.files[0])}
+              value={parallel}
+              onChange={(e) => handleChange('parallel', e.target.value)}
+              onBlur={() => handleBlur('parallel')}
+              error={!!errors.parallel}
             />
+            {errors.parallel && <Typography variant="small" color="red">{errors.parallel}</Typography>}
+            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+              Give a short description about yourself
+            </Typography>
+            <Textarea
+              size="lg"
+              placeholder="Description"
+              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              labelProps={{
+                className: "before:content-none after:content-none",
+              }}
+              value={description}
+              onChange={(e) => handleChange('description', e.target.value)}
+              onBlur={() => handleBlur('description')}
+              error={!!errors.description}
+              rows={4}
+            />
+            {errors.description && <Typography variant="small" color="red">{errors.description}</Typography>}
+            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+              Profile Image
+            </Typography>
+            <div className="flex items-center justify-center w-full">
+              <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  {imagePreview ? (
+                    <img src={imagePreview} alt="Preview" className="h-32 w-32 object-cover rounded-full mb-3" />
+                  ) : (
+                    <svg aria-hidden="true" className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16V8m0 0l-4 4m4-4l4 4m5 4h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2m-6 10h6m-6 0a2 2 0 01-2-2v-2a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2m-6 0V8m0 0l-4 4m4-4l4 4"></path>
+                    </svg>
+                  )}
+                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                  {image && <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{image.name}</p>}
+                </div>
+                <input id="dropzone-file" type="file" className="hidden" onChange={handleImageChange} />
+              </label>
+            </div>
           </div>
           <Checkbox
             label={
@@ -361,7 +499,10 @@ export function SignUp() {
               </Typography>
             }
             containerProps={{ className: "-ml-2.5" }}
+            checked={termsAccepted}
+            onChange={(e) => setTermsAccepted(e.target.checked)}
           />
+          {errors.termsAccepted && <Typography variant="small" color="red">{errors.termsAccepted}</Typography>}
           <Button className="mt-6" fullWidth type="submit" disabled={!isFormValid()}>
             Register Now
           </Button>
@@ -372,28 +513,6 @@ export function SignUp() {
             </Typography>
           )}
 
-          <div className="space-y-4 mt-8">
-            <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
-              <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0_1156_824)">
-                  <path d="M16.3442 8.18429C16.3442 7.64047 16.3001 7.09371 16.206 6.55872H8.66016V9.63937H12.9813C12.802 10.6329 12.2258 11.5119 11.3822 12.0704V14.0693H13.9602C15.4741 12.6759 16.3442 10.6182 16.3442 8.18429Z" fill="#4285F4" />
-                  <path d="M8.65974 16.0006C10.8174 16.0006 12.637 15.2922 13.9627 14.0693L11.3847 12.0704C10.6675 12.5584 9.7415 12.8347 8.66268 12.8347C6.5756 12.8347 4.80598 11.4266 4.17104 9.53357H1.51074V11.5942C2.86882 14.2956 5.63494 16.0006 8.65974 16.0006Z" fill="#34A853" />
-                  <path d="M4.16852 9.53356C3.83341 8.53999 3.83341 7.46411 4.16852 6.47054V4.40991H1.51116C0.376489 6.67043 0.376489 9.33367 1.51116 11.5942L4.16852 9.53356Z" fill="#FBBC04" />
-                  <path d="M8.65974 3.16644C9.80029 3.1488 10.9026 3.57798 11.7286 4.36578L14.0127 2.08174C12.5664 0.72367 10.6469 -0.0229773 8.65974 0.000539111C5.63494 0.000539111 2.86882 1.70548 1.51074 4.40987L4.1681 6.4705C4.8001 4.57449 6.57266 3.16644 8.65974 3.16644Z" fill="#EA4335" />
-                </g>
-                <defs>
-                  <clipPath id="clip0_1156_824">
-                    <rect width="16" height="16" fill="white" transform="translate(0.5)" />
-                  </clipPath>
-                </defs>
-              </svg>
-              <span>Sign in With Google</span>
-            </Button>
-            <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
-              <img src="/img/twitter-logo.svg" height={24} width={24} alt="" />
-              <span>Sign in With Twitter</span>
-            </Button>
-          </div>
           <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
             Already have an account?
             <Link to="/sign-in" className="text-gray-900 ml-1">Sign in</Link>
