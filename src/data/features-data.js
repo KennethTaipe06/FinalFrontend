@@ -1,28 +1,28 @@
 import {
-  ChatBubbleBottomCenterTextIcon,
+LockClosedIcon,CloudIcon,CubeTransparentIcon 
 } from "@heroicons/react/24/solid";
 
 export const featuresData = [
   {
     color: "gray",
-    title: "Awarded Agency",
-    icon: ChatBubbleBottomCenterTextIcon,
+    title: "Microservices",
+    icon: CubeTransparentIcon,
     description:
-      "Divide details about your product or agency work into parts. A paragraph describing a feature will be enough.",
+      "Microservices are an architecture where an application is built as a collection of small, independent services that communicate through APIs, each focusing on a specific task."
+     },
+  {
+    color: "gray",
+    title: "DevOps",
+    icon: LockClosedIcon,
+    description:
+      "DevOps is a set of practices that combine development and operations to automate and streamline the software development lifecycle, improving collaboration, efficiency, and continuous delivery.",
   },
   {
     color: "gray",
-    title: "Free Revisions",
-    icon: ChatBubbleBottomCenterTextIcon,
+    title: "Cloud",
+    icon: CloudIcon,
     description:
-      "Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious.",
-  },
-  {
-    color: "gray",
-    title: "Verified Company",
-    icon: ChatBubbleBottomCenterTextIcon,
-    description:
-      "Write a few lines about each one. A paragraph describing a feature will be enough. Keep you user engaged!",
+      "Cloud refers to the delivery of computing services (like storage, processing, and software) over the internet, allowing for scalable, on-demand access without the need for local infrastructure.",
   },
 ];
 

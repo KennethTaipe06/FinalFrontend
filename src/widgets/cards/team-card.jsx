@@ -7,9 +7,9 @@ export function TeamCard({ img, name, position, socials }) {
       <Avatar
         src={img}
         alt={name}
-        size="xxl"
+        size="md"
         variant="rounded"
-        className="h-full w-full shadow-lg shadow-gray-500/25"
+        className="mx-auto my-auto h-80 w-80 shadow-lg shadow-gray-500/25"
       />
       <Typography variant="h5" color="blue-gray" className="mt-6 mb-1">
         {name}

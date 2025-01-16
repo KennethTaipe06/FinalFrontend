@@ -29,12 +29,17 @@ export function Home() {
                 color="white"
                 className="mb-6 font-black"
               >
-                Your story starts with us.
+                Our Proyect.
               </Typography>
-              <Typography variant="lead" color="white" className="opacity-80">
-                This is a simple example of a Landing Page you can build using
-                Material Tailwind. It features multiple components based on the
-                Tailwind CSS and Material Design by Google.
+              <Typography variant="lead" color="white" className="opacity-70">
+                The educational platform, developed for a Distributed Programming
+                course, consists of 20 AWS-deployed microservices using REST API, GraphQL,
+                WebSocket, WebHook, and RPC. It integrates four types of databases, runs on
+                three operating systems, and uses at least four backend languages. Security
+                includes JWT, encryption, and CORS. The system follows DevOps best practices,
+                featuring a load balancer, auto-scaling, API Gateway, and event-driven architecture
+                with AWS SNS, SQS, or Kinesis. It adheres to SOLID, KISS, DRY, and YAGNI principles,
+                with monitoring via Grafana, Prometheus, and Kibana.
               </Typography>
             </div>
           </div>
@@ -65,19 +70,18 @@ export function Home() {
                 className="mb-3 font-bold"
                 color="blue-gray"
               >
-                Working with us is a pleasure
+                The architecture
               </Typography>
               <Typography className="mb-8 font-normal text-blue-gray-500">
-                Don't let your uses guess by attaching tooltips and popoves to
-                any element. Just make sure you enable them first via
-                JavaScript.
-                <br />
-                <br />
-                The kit comes with three pre-built pages to help you get started
-                faster. You can change the text and images and you're good to
-                go. Just make sure you enable them first via JavaScript.
+                Our application uses cloud infrastructure, deploying containers across multiple
+                regions and availability zones for resilience. Each microservice has its own database,
+                ensuring high availability, scalability, and fault isolation.
+                <br></br>
+                <br></br>
+                We also implement replication and disaster recovery mechanisms to minimize
+                failure impact and ensure continuous service. This enhances reliability and
+                allows the app to function during disruptions.
               </Typography>
-              <Button variant="filled">read more</Button>
             </div>
             <div className="mx-auto mt-24 flex w-full justify-center px-4 md:w-4/12 lg:mt-0">
               <Card className="shadow-lg border shadow-gray-500/10 rounded-lg">
@@ -89,18 +93,17 @@ export function Home() {
                   />
                 </CardHeader>
                 <CardBody>
-                  <Typography variant="small" color="blue-gray" className="font-normal">Enterprise</Typography>
                   <Typography
                     variant="h5"
                     color="blue-gray"
                     className="mb-3 mt-2 font-bold"
                   >
-                    Top Notch Services
+                    AWS Architecture
                   </Typography>
                   <Typography className="font-normal text-blue-gray-500">
-                    The Arctic Ocean freezes every winter and much of the
-                    sea-ice then thaws every summer, and that process will
-                    continue whatever happens.
+                    We use AWS for its reliable, scalable, and secure infrastructure,
+                    enabling resilient deployment, independent scaling, and integrated
+                    security with minimal downtime.
                   </Typography>
                 </CardBody>
               </Card>
@@ -108,14 +111,14 @@ export function Home() {
           </div>
         </div>
       </section>
-      <section className="px-4 pt-20 pb-48">
+      <section className="px-4 pt-10 pb-10">
         <div className="container mx-auto">
           <PageTitle section="Our Team" heading="Here are our heroes">
             According to the National Oceanic and Atmospheric Administration,
             Ted, Scambos, NSIDClead scentist, puts the potentially record
             maximum.
           </PageTitle>
-          <div className="mt-24 grid grid-cols-1 gap-12 gap-x-24 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-12 grid grid-cols-1 gap-6 gap-x-12 md:grid-cols-2 xl:grid-cols-2">
             {teamData.map(({ img, name, position, socials }) => (
               <TeamCard
                 key={name}
@@ -136,7 +139,7 @@ export function Home() {
           </div>
         </div>
       </section>
-      <section className="relative bg-white py-24 px-4">
+      <section className="relative bg-white py-12 px-4">
         <div className="container mx-auto">
           <PageTitle section="Co-Working" heading="Build something">
             Put the potentially record low maximum sea ice extent tihs year down
