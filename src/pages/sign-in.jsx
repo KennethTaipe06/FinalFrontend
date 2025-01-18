@@ -14,7 +14,7 @@ export function SignIn() {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("");
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { login } = useContext(AuthContext); // Cambia setIsAuthenticated por login
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,7 +28,7 @@ export function SignIn() {
       if (response.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.userId);
-        setIsAuthenticated(true);
+        login(); // Llama a login en lugar de setIsAuthenticated
         setAlertMessage("Login successful");
         setAlertType("success");
         setTimeout(() => navigate("/home"), 2000);

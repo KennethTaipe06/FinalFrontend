@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react'; // Agregar useContext
 
 export const AuthContext = createContext();
 
@@ -16,9 +16,15 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
+  const login = () => {
+    setIsAuthenticated(true);
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, login }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext); // Exportar useAuth

@@ -1,12 +1,44 @@
+import { useEffect, useState } from "react";
 import { Avatar, Typography, Button } from "@material-tailwind/react";
 import {
   MapPinIcon,
-  BriefcaseIcon,
   BuildingLibraryIcon,
+  DevicePhoneMobileIcon,
+  UserCircleIcon,
+  AcademicCapIcon
 } from "@heroicons/react/24/solid";
 import { Footer } from "@/widgets/layout";
 
 export function Profile() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+
+      if (userId && token) {
+        try {
+          const response = await fetch(`http://localhost:3004/users/${userId}?token=${token}`, {
+            headers: {
+              accept: "application/json",
+            },
+          });
+          const data = await response.json();
+          setUser(data);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <section className="relative block h-[50vh]">
@@ -28,14 +60,14 @@ export function Profile() {
                 </div>
                 <div className="flex flex-col mt-2">
                   <Typography variant="h4" color="blue-gray">
-                    Jenna Stones
+                    {user.firstName} {user.lastName}
                   </Typography>
-                  <Typography variant="paragraph" color="gray" className="!mt-0 font-normal">jena@mail.com</Typography>
+                  <Typography variant="paragraph" color="gray" className="!mt-0 font-normal">{user.email}</Typography>
                 </div>
               </div>
 
               <div className="mt-10 mb-10 flex lg:flex-col justify-between items-center lg:justify-end lg:mb-0 lg:px-4 flex-wrap lg:-mt-5">
-                <Button className="bg-gray-900 w-fit lg:ml-auto">Conntect</Button>
+                <Button className="bg-gray-900 w-fit lg:ml-auto">Connect</Button>
                 <div className="flex justify-start py-4 pt-8 lg:pt-4">
                   <div className="mr-4 p-3 text-center">
                     <Typography
@@ -83,50 +115,54 @@ export function Profile() {
                     </Typography>
                   </div>
                 </div>
-
               </div>
             </div>
             <div className="-mt-4 container space-y-2">
               <div className="flex items-center gap-2">
                 <MapPinIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  Los Angeles, California
+                  {user.address}
                 </Typography>
               </div>
               <div className="flex items-center gap-2">
-                <BriefcaseIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
+                <AcademicCapIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  Solution Manager - Creative Tim Officer
+                  {user.career}
                 </Typography>
               </div>
               <div className="flex items-center gap-2">
                 <BuildingLibraryIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  University of Computer Science
+                  {user.semester} - {user.parallel}
+                </Typography>
+              </div>
+              <div className="flex items-center gap-2">
+                <UserCircleIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
+                <Typography className="font-medium text-blue-gray-500">
+                  {user.username}
+                </Typography>
+              </div>
+              <div className="flex items-center gap-2">
+                <DevicePhoneMobileIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
+                <Typography className="font-medium text-blue-gray-500">
+                  {user.phone}
                 </Typography>
               </div>
             </div>
             <div className="mb-10 py-6">
               <div className="flex w-full flex-col items-start lg:w-1/2">
                 <Typography className="mb-6 font-normal text-blue-gray-500">
-                  An artist of considerable range, Jenna the name taken by
-                  Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                  performs and records all of his own music, giving it a
-                  warm, intimate feel with a solid groove structure. An
-                  artist of considerable range.
+                  {user.description}
                 </Typography>
                 <Button variant="text">Show more</Button>
               </div>
             </div>
           </div>
-
-
         </div>
       </section>
       <div className="bg-white">
         <Footer />
       </div>
-
     </>
   );
 }
