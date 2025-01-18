@@ -37,11 +37,11 @@ export function PasswordRecovery() {
         const data = await response.json();
         if (response.ok) {
           localStorage.setItem("userId", data.userId); // Almacenar el userId en el localStorage
-          setAlertMessage("Email stored successfully. Please enter the 4-digit code.");
+          //setAlertMessage("Please enter the 4-digit code.");
           setAlertType("success");
           setShowCodeInput(true); // Mostrar el campo de código
         } else {
-          setAlertMessage(data.message || "Failed to send password recovery email");
+          setAlertMessage(data.message || "No email found");
           setAlertType("error");
         }
       } catch (error) {
@@ -110,7 +110,7 @@ export function PasswordRecovery() {
             {showCodeInput && (
               <>
                 <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                  Enter the 4-digit code
+                Enter the 4-digit code sent to your email. Expires in 3 minutes.
                 </Typography>
                 <Input
                   size="lg"
