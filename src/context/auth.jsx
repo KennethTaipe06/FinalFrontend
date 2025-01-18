@@ -38,7 +38,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.clear();
         setIsAuthenticated(false);
       } else {
-        console.error('Logout failed');
+        setIsAuthenticated(false);
+        localStorage.clear();
       }
     } catch (error) {
       console.error('Error:', error);

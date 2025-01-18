@@ -1,10 +1,15 @@
-import { Home, Profile, SignIn, SignUp, Marketplace } from "@/pages";
+import { Home, Profile, SignIn, SignUp, Marketplace, PasswordRecovery } from "@/pages"; // Importar PasswordRecovery
 
 export const routes = [
   {
     name: "home",
     path: "/home",
     element: <Home />,
+  },
+  {
+    name: "password-recovery",
+    path: "/password-recovery",
+    element: <PasswordRecovery />, // Agregar la ruta de PasswordRecovery
   },
   {
     name: "profile",
