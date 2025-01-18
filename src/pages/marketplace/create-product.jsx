@@ -121,3 +121,4 @@ const CreateProduct = () => {
 };
 
 export default CreateProduct;
+export {CreateProduct};

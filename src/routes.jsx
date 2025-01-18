@@ -1,5 +1,5 @@
 import { Home, Profile, SignIn, SignUp, Marketplace } from "@/pages";
-
+import { CreateProduct } from "@/pages/marketplace/create-product";
 
 export const routes = [
   {
@@ -26,6 +26,14 @@ export const routes = [
     name: "Marketplace",
     path: "/marketplace",
     element: <Marketplace />,
+  },
+];
+
+export const hiddenRoutes = [
+  {
+    name: "Create Product",
+    path: "/marketplace/create-product",
+    element: <CreateProduct />,
   },
 ];
 
