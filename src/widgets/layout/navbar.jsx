@@ -13,7 +13,7 @@ import { useAuth } from "@/context/auth"; // Importar el contexto de autenticaci
 
 export function Navbar({ brandName, routes, action }) {
   const [openNav, setOpenNav] = React.useState(false);
-  const { isAuthenticated } = useAuth(); // Obtener el estado de autenticación
+  const { isAuthenticated, logout } = useAuth(); // Obtener el estado de autenticación y logout
 
   React.useEffect(() => {
     window.addEventListener(
@@ -82,9 +82,16 @@ export function Navbar({ brandName, routes, action }) {
               boton x
             </Button>
           </a>
-          {isAuthenticated && React.cloneElement(action, {
-            className: "hidden lg:inline-block",
-          })}
+          {isAuthenticated && (
+            <Button
+              variant="gradient"
+              size="sm"
+              fullWidth
+              onClick={logout} // Llamar a logout al hacer clic
+            >
+              Log out
+            </Button>
+          )}
         </div>
         <IconButton
           variant="text"

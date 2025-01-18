@@ -20,8 +20,33 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(true);
   };
 
+  const logout = async () => {
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(import.meta.env.VITE_API_LOGOUT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json',
+        },
+        body: JSON.stringify({ email: userId, token }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log(data.message); // "bye bye"
+        localStorage.clear();
+        setIsAuthenticated(false);
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, login }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
