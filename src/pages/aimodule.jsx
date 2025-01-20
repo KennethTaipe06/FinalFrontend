@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Footer } from "@/widgets/layout";
 
-export function Profile() {
+export function AIModule() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -167,4 +167,4 @@ export function Profile() {
   );
 }
 
-export default Profile;
+export default AIModule;

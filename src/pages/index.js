@@ -4,3 +4,4 @@ export * from "@/pages/sign-in";
 export * from "@/pages/sign-up";
 export * from "@/pages/password-recovery"; // Asegurarse de exportar PasswordRecovery
 export * from "@/pages/marketplace";
+export * from "@/pages/aimodule"; // Asegurarse de exportar AIModule correctamente

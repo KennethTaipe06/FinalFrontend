@@ -1,4 +1,4 @@
-import { Home, Profile, SignIn, SignUp, Marketplace, PasswordRecovery } from "@/pages"; // Importar PasswordRecovery
+import { Home, Profile, SignIn, SignUp, Marketplace, PasswordRecovery, AIModule } from "@/pages"; // Importar AIModule correctamente
 
 export const routes = [
   {
@@ -15,6 +15,12 @@ export const routes = [
     name: "profile",
     path: "/profile",
     element: <Profile />,
+    protected: true,
+  },
+  {
+    name: "AI Module",
+    path: "/aimodule",
+    element: <AIModule />, // Usar AIModule correctamente
     protected: true,
   },
   {
