@@ -1,6 +1,5 @@
-import { Home, Profile, SignIn, SignUp, Marketplace, PasswordRecovery, AIModule } from "@/pages"; // Importar AIModule correctamente
+import { Home, Profile, SignIn, SignUp, Marketplace, PasswordRecovery, Iamodule } from "@/pages"; // Importar AIModule correctamente
 import { CreateProduct } from "@/pages/marketplace/create-product";
-
 export const routes = [
   {
     name: "home",
@@ -20,8 +19,8 @@ export const routes = [
   },
   {
     name: "AI Module",
-    path: "/aimodule",
-    element: <AIModule />, // Usar AIModule correctamente
+    path: "/iamodule/iamodule",
+    element: <Iamodule />, // Usar AIModule correctamente
     protected: true,
   },
   {
@@ -49,7 +48,8 @@ export const hiddenRoutes = [
     name: "Create Product",
     path: "/marketplace/create-product",
     element: <CreateProduct />,
-  },
+  }
+  
 ];
 
 export default routes;
