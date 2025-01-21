@@ -1,4 +1,6 @@
 import { Home, Profile, SignIn, SignUp, Marketplace, PasswordRecovery, AIModule } from "@/pages"; // Importar AIModule correctamente
+import { Home, Profile, SignIn, SignUp, Marketplace } from "@/pages";
+import { CreateProduct } from "@/pages/marketplace/create-product";
 
 export const routes = [
   {
@@ -40,6 +42,14 @@ export const routes = [
     path: "/marketplace",
     element: <Marketplace />,
     protected: true, // Solo visible cuando está autenticado
+  },
+];
+
+export const hiddenRoutes = [
+  {
+    name: "Create Product",
+    path: "/marketplace/create-product",
+    element: <CreateProduct />,
   },
 ];
 
