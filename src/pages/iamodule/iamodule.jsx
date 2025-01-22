@@ -25,7 +25,7 @@ const Iamodule = () => {
       <section className="relative block h-[11vh] bg-black">
         <div className="absolute top-0 h-full w-full bg-black/60 bg-cover bg-center" />
       </section>
-      <div className="flex flex-col lg:flex-row h-[89vh] bg-white text-black">
+      <div className="flex flex-col lg:flex-row h-[89vh] bg-white text-black overflow-hidden">
         {/* Sidebar */}
         <aside className="w-full lg:w-64 bg-black p-4 text-white lg:block hidden">
           <h1 className="text-2xl font-bold mb-6">AI Module</h1>
@@ -58,7 +58,7 @@ const Iamodule = () => {
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 p-6 bg-white bg-opacity-75 flex flex-col">
+        <main className="flex-1 p-6 bg-white bg-opacity-75 flex flex-col overflow-hidden">
           {renderComponent()}
         </main>
       </div>

@@ -1,15 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Input, Button, Typography, Card, CardBody } from "@material-tailwind/react";
-import mermaid from "mermaid"; // Importar mermaid
+import { graphviz } from 'd3-graphviz'; // Importar Graphviz
 
 const Mapgen = () => {
   const [theme, setTheme] = useState(""); // State for theme
   const [considerations, setConsiderations] = useState(""); // State for considerations
-  const [mapCode, setMapCode] = useState(""); // State for the mermaid map code
+  const [mapCode, setMapCode] = useState(""); // State for the Graphviz code
+  const graphvizContainerRef = useRef(null); // Ref for the Graphviz container
 
   useEffect(() => {
-    mermaid.initialize({ startOnLoad: true });
-  }, []);
+    if (mapCode) {
+      graphviz(graphvizContainerRef.current).renderDot(mapCode).on("end", () => {
+        const svg = graphvizContainerRef.current.querySelector("svg");
+        if (svg) {
+          svg.setAttribute("width", "100%");
+          svg.setAttribute("height", "100%");
+        }
+      });
+    }
+  }, [mapCode]);
 
   const handleSendMessage = async () => {
     const userId = localStorage.getItem("userId");
@@ -32,9 +41,12 @@ const Mapgen = () => {
 
       const data = await response.json().catch(() => null);
       if (response.ok && data) {
-        let mermaidCode = data.botMessage.match(/```mermaid\n([\s\S]*?)\n```/)[1];
-        mermaidCode = mermaidCode.replace(/^\s*end\s*$/gm, ''); // Eliminar líneas que contienen "end"
-        setMapCode(mermaidCode);
+        let graphvizCode = data.botMessage.match(/```dot\n([\s\S]*?)\n```/);
+        if (graphvizCode) {
+          setMapCode(graphvizCode[1]);
+        } else {
+          console.error("Failed to parse graphviz code");
+        }
         setTheme(""); // Clear the theme field
         setConsiderations(""); // Clear the considerations field
       } else {
@@ -46,7 +58,7 @@ const Mapgen = () => {
   };
 
   const handleExportImage = () => {
-    const svg = document.querySelector("#mermaid-container svg");
+    const svg = graphvizContainerRef.current.querySelector("svg");
     if (svg) {
       const serializer = new XMLSerializer();
       const source = serializer.serializeToString(svg);
@@ -62,13 +74,19 @@ const Mapgen = () => {
     }
   };
 
-  useEffect(() => {
-    if (mapCode) {
-      const mermaidContainer = document.getElementById("mermaid-container");
-      mermaidContainer.textContent = mapCode;
-      mermaid.init(undefined, mermaidContainer);
+  const handleZoom = (zoomIn) => {
+    const graphvizContainer = graphvizContainerRef.current;
+    if (graphvizContainer) {
+      const svg = graphvizContainer.querySelector("svg");
+      if (svg) {
+        const currentScale = svg.getAttribute("data-scale") ? parseFloat(svg.getAttribute("data-scale")) : 1;
+        const newScale = zoomIn ? currentScale + 0.1 : currentScale - 0.1;
+        svg.setAttribute("data-scale", newScale);
+        svg.style.transform = `scale(${newScale})`;
+        svg.style.transformOrigin = "center center";
+      }
     }
-  }, [mapCode]);
+  };
 
   return (
     <section className="flex-1 flex flex-col">
@@ -94,9 +112,11 @@ const Mapgen = () => {
           </div>
           <div className="flex mb-4">
             <Button onClick={handleSendMessage} className="mr-4">Send</Button>
-            <Button onClick={handleExportImage}>Export</Button>
+            <Button onClick={handleExportImage} className="mr-4">Export</Button>
+            <Button onClick={() => handleZoom(true)} className="mr-2">Zoom In</Button>
+            <Button onClick={() => handleZoom(false)}>Zoom Out</Button>
           </div>
-          <div id="mermaid-container" className="mt-4 overflow-auto max-h-96"></div>
+          <div id="graphviz-container" ref={graphvizContainerRef} className="flex-1 overflow-auto w-full h-full"></div>
         </CardBody>
       </Card>
     </section>
