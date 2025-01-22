@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/widgets/layout";
 import { useAuth } from "@/context/auth"; // Importa el contexto de autenticación
-import routes, { hiddenRoutes } from "@/routes"; // Importar routes y hiddenRoutes
+import routes, { hiddenRoutes } from "@/routes";
 
 function App() {
   const { pathname } = useLocation();
@@ -31,8 +31,9 @@ function App() {
             />
           )
         )}
-        {hiddenRoutes.map(({ path, element }, key) =>
-          element && <Route key={key} exact path={path} element={element} />
+        {routes.concat(hiddenRoutes).map(
+          ({ path, element }, key) =>
+            element && <Route key={key} exact path={path} element={element} />
         )}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>

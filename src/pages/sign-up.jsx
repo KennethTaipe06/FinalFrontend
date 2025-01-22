@@ -393,7 +393,7 @@ export function SignUp() {
               onBlur={() => handleBlur('phone')}
               error={!!errors.phone}
             />
-            {errors.phone && <Typography variant="small" color="red">{errors.phone}</Typography>}
+            {errors.phone && <Typography variant="small" color="red">{errors.semester}</Typography>}
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Semester
             </Typography>

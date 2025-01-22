@@ -114,9 +114,16 @@ export function Navbar({ brandName, routes, action }) {
               pro version
             </Button>
           </a>
-          {isAuthenticated && React.cloneElement(action, {
-            className: "w-full block",
-          })}
+          {isAuthenticated && (
+            <Button
+              variant="gradient"
+              size="sm"
+              fullWidth
+              onClick={logout} // Llamar a logout al hacer clic
+            >
+              Log out
+            </Button>
+          )}
         </div>
       </MobileNav>
     </MTNavbar>
@@ -126,14 +133,14 @@ export function Navbar({ brandName, routes, action }) {
 Navbar.defaultProps = {
   brandName: "EduPlace",
   action: (
-    <a
-      href="https://www.creative-tim.com/product/material-tailwind-kit-react"
-      target="_blank"
+    <Button
+      variant="gradient"
+      size="sm"
+      fullWidth
+      onClick={logout} // Llamar a logout al hacer clic
     >
-      <Button variant="gradient" size="sm" fullWidth>
-        Log out
-      </Button>
-    </a>
+      Log out
+    </Button>
   ),
 };
 
