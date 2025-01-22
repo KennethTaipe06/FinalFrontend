@@ -44,6 +44,12 @@ export const routes = [
     element: <Marketplace />,
     protected: true, // Solo visible cuando está autenticado
   },
+  {
+    name: "Map Generator",
+    path: "/iamodule/mapgenerator",
+    element: <Mapgen />, // Agregar la ruta de Mapgen
+    protected: true,
+  },
 ];
 
 export const hiddenRoutes = [

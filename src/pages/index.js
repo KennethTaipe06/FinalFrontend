@@ -6,4 +6,5 @@ export * from "@/pages/password-recovery"; // Asegurarse de exportar PasswordRec
 export * from "@/pages/marketplace/marketplace"; // Asegurarse de exportar Marketplace correctamente
 export * from "@/pages/marketplace/create-product";
 export * from "@/pages/iamodule/iamodule"; // Asegurarse de exportar AIModule correctamente
+export * from "@/pages/iamodule/mapgenerator"; // Asegurarse de exportar Mapgen correctamente
 

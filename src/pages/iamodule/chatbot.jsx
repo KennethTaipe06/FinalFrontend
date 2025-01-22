@@ -51,7 +51,7 @@ const Chatbot = () => {
                 </div>
                 <div className="self-start bg-gray-200 text-black p-2 rounded-lg max-w-xs">
                   <Typography variant="small" className="font-bold">
-                    <strong>Bot:</strong> {chat.botMessage}
+                    <strong>Bot:</strong> {chat.botMessage.replace(/^bot:\s*/, '')}
                   </Typography>
                 </div>
               </div>

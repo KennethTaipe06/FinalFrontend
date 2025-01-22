@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import Chatbot from "./chatbot"; // Importar Chatbot
-
+import Mapgen from "./mapgenerator"; // Importar Mapgen
 
 const Iamodule = () => {
   const [activeComponent, setActiveComponent] = useState(null);
@@ -12,6 +12,8 @@ const Iamodule = () => {
     switch (activeComponent) {
       case "chatbot":
         return <Chatbot />;
+      case "mapgenerator":
+        return <Mapgen />;
       // Agregar más casos aquí para otros componentes
       default:
         return null;
@@ -35,7 +37,10 @@ const Iamodule = () => {
               ChatBot
             </span>
           </button>
-          <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800 w-full h-12">
+          <button
+            className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800 w-full h-12"
+            onClick={() => setActiveComponent("mapgenerator")}
+          >
             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-black dark:bg-gray-900 rounded-md group-hover:bg-opacity-0 w-full text-center">
               Conceptual Map Generator
             </span>
@@ -53,9 +58,12 @@ const Iamodule = () => {
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 p-6 bg-white bg-opacity-75 flex flex-col overflow-auto">
+        <main className="flex-1 p-6 bg-white bg-opacity-75 flex flex-col">
           {renderComponent()}
         </main>
+      </div>
+      <div className="fixed bottom-0 left-0 p-4 text-sm text-gray-400">
+        Powered by Gemini
       </div>
     </>
   );

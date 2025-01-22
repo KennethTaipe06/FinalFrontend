@@ -131,7 +131,7 @@ export function Navbar({ brandName, routes }) {
 }
 
 Navbar.defaultProps = {
-  brandName: "EduPlace",
+  brandName: "La5",
 };
 
 Navbar.propTypes = {
