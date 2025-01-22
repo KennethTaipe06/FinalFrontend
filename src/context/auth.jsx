@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'; // Agregar useContext
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
@@ -25,14 +25,12 @@ export const AuthProvider = ({ children }) => {
       const userId = localStorage.getItem('userId');
       const token = localStorage.getItem('token');
   
-      const response = await fetch(import.meta.env.VITE_API_LOGOUT, {
+      const response = await fetch(`${import.meta.env.VITE_API_LOGOUT}/${userId}/${token}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': `Bearer ${token}` // Enviar el token en el header
         },
-        body: JSON.stringify({ email: userId })
+        body: ''
       });
   
       if (!response.ok) {
@@ -57,4 +55,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext); // Exportar useAuth
+export const useAuth = () => useContext(AuthContext);

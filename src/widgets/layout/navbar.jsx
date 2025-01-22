@@ -11,7 +11,7 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/context/auth"; // Importar el contexto de autenticación
 
-export function Navbar({ brandName, routes, action }) {
+export function Navbar({ brandName, routes }) {
   const [openNav, setOpenNav] = React.useState(false);
   const { isAuthenticated, logout } = useAuth(); // Obtener el estado de autenticación y logout
 
@@ -132,22 +132,11 @@ export function Navbar({ brandName, routes, action }) {
 
 Navbar.defaultProps = {
   brandName: "EduPlace",
-  action: (
-    <Button
-      variant="gradient"
-      size="sm"
-      fullWidth
-      onClick={logout} // Llamar a logout al hacer clic
-    >
-      Log out
-    </Button>
-  ),
 };
 
 Navbar.propTypes = {
   brandName: PropTypes.string,
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  action: PropTypes.node,
 };
 
 Navbar.displayName = "/src/widgets/layout/navbar.jsx";

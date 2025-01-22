@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Avatar, Typography, Button, Dialog, DialogHeader, DialogBody, DialogFooter, Input, Select, Option, Textarea } from "@material-tailwind/react";
+import { Avatar, Typography, Button, Dialog, DialogHeader, DialogBody, DialogFooter, Input, Select, Option, Textarea, Spinner } from "@material-tailwind/react";
 import {
   MapPinIcon,
   BuildingLibraryIcon,
@@ -12,6 +12,8 @@ import { Footer } from "@/widgets/layout";
 export function Profile() {
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -163,6 +165,34 @@ export function Profile() {
     }
   };
 
+  const handleDeleteProfile = async () => {
+    setIsDeleting(true);
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+
+    if (userId && token) {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_DELETE_PROFILE}/${userId}?token=${token}`, {
+          method: 'DELETE',
+          headers: {
+            accept: "*/*",
+          },
+        });
+
+        if (response.ok) {
+          localStorage.clear();
+          window.location.reload(); // Recargar la página
+        } else {
+          console.error("Error deleting user data");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setIsDeleting(false);
+      }
+    }
+  };
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -202,7 +232,11 @@ export function Profile() {
                 >
                   Edit Profile
                 </button>
-                <button class="rounded-md bg-red-600 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2" type="button">
+                <button
+                  className="rounded-md bg-red-600 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
+                  type="button"
+                  onClick={() => setIsDeleteModalOpen(true)}
+                >
                   Delete Profile
                 </button>
               </div>
@@ -307,6 +341,20 @@ export function Profile() {
           </Button>
           <Button variant="gradient" color="green" onClick={handleSaveChanges}>
             Save Changes
+          </Button>
+        </DialogFooter>
+      </Dialog>
+      <Dialog open={isDeleteModalOpen} handler={setIsDeleteModalOpen}>
+        <DialogHeader>Confirm Delete</DialogHeader>
+        <DialogBody divider>
+          <Typography>Are you sure you want to delete your profile?</Typography>
+        </DialogBody>
+        <DialogFooter>
+          <Button variant="text" color="red" onClick={() => setIsDeleteModalOpen(false)}>
+            Cancel
+          </Button>
+          <Button variant="gradient" color="red" onClick={handleDeleteProfile} disabled={isDeleting}>
+            {isDeleting ? <Spinner className="h-4 w-4" /> : "Delete"}
           </Button>
         </DialogFooter>
       </Dialog>
