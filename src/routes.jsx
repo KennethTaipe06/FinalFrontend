@@ -1,5 +1,8 @@
-import { Home, Profile, SignIn, SignUp, Marketplace, PasswordRecovery, Iamodule } from "@/pages"; // Importar AIModule correctamente
+import { Home, Profile, SignIn, SignUp, Marketplace, PasswordRecovery, Iamodule } from "@/pages"; // Importar Chatbot correctamente
 import { CreateProduct } from "@/pages/marketplace/create-product";
+import { Chatbot } from "@/pages/iamodule/chatbot"; // Importar Chatbot correctamente
+import { Mapgen } from "@/pages/iamodule/mapgenerator"; // Importar Mapgen correctamente
+
 export const routes = [
   {
     name: "home",
@@ -48,8 +51,19 @@ export const hiddenRoutes = [
     name: "Create Product",
     path: "/marketplace/create-product",
     element: <CreateProduct />,
-  }
-  
+  },
+  {
+    name: "Chatbot",
+    path: "/iamodule/chatbot",
+    element: <Chatbot />, // Agregar la ruta de Chatbot
+    protected: true,
+  },
+  {
+    name: "Map Generator",
+    path: "/iamodule/mapgenerator",
+    element: <Mapgen />, // Agregar la ruta de Mapgen
+    protected: true,
+  },
 ];
 
 export default routes;
