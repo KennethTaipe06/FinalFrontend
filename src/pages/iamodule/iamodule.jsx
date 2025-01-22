@@ -53,7 +53,7 @@ const Iamodule = () => {
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 p-6 bg-white bg-opacity-75 flex flex-col">
+        <main className="flex-1 p-6 bg-white bg-opacity-75 flex flex-col overflow-auto">
           {renderComponent()}
         </main>
       </div>
